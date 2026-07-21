@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -110,7 +110,7 @@ do
   vim.o.number = true
   -- You can also add relative line numbers, to help with jumping.
   --  Experiment for yourself to see if you like it!
-  -- vim.o.relativenumber = true
+  vim.o.relativenumber = true
 
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
@@ -156,7 +156,11 @@ do
   --   See `:help lua-options`
   --   and `:help lua-guide-options`
   vim.o.list = true
-  vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+  vim.opt.listchars = {
+    -- tab = '» ', 
+    trail = '·',
+    nbsp = '␣'
+  }
 
   -- Preview substitutions live, as you type!
   vim.o.inccommand = 'split'
@@ -350,16 +354,16 @@ do
   --
   -- See `:help gitsigns` to understand what each configuration key does.
   -- Adds git related signs to the gutter, as well as utilities for managing changes
-  vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
-  require('gitsigns').setup {
-    signs = {
-      add = { text = '+' }, ---@diagnostic disable-line: missing-fields
-      change = { text = '~' }, ---@diagnostic disable-line: missing-fields
-      delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
-      topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
-      changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
-    },
-  }
+  -- vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
+  -- require('gitsigns').setup {
+  --   signs = {
+  --     add = { text = '+' }, ---@diagnostic disable-line: missing-fields
+  --     change = { text = '~' }, ---@diagnostic disable-line: missing-fields
+  --     delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
+  --     topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
+  --     changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
+  --   },
+  -- }
 
   -- Useful plugin to show you pending keybinds.
   vim.pack.add { gh 'folke/which-key.nvim' }
@@ -382,18 +386,18 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'folke/tokyonight.nvim' }
-  ---@diagnostic disable-next-line: missing-fields
-  require('tokyonight').setup {
-    styles = {
-      comments = { italic = false }, -- Disable italics in comments
-    },
-  }
+  -- vim.pack.add { gh 'folke/tokyonight.nvim' }
+  -- ---@diagnostic disable-next-line: missing-fields
+  -- require('tokyonight').setup {
+  --   styles = {
+  --     comments = { italic = false }, -- Disable italics in comments
+  --   },
+  -- }
 
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  vim.pack.add { gh 'projekt0n/github-nvim-theme' }
+  require('github-theme').setup {}
+  vim.cmd('colorscheme github_dark_high_contrast')
+
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -432,21 +436,13 @@ do
   -- - sr)'  - [S]urround [R]eplace [)] [']
   require('mini.surround').setup()
 
-  -- Simple and easy statusline.
-  --  You could remove this setup call if you don't like it,
-  --  and try some other statusline plugin
+  ---@diagnostic disable: duplicate-set-field
   local statusline = require 'mini.statusline'
-  -- Set `use_icons` to true if you have a Nerd Font
-  statusline.setup { use_icons = vim.g.have_nerd_font }
-
-  -- You can configure sections in the statusline by overriding their
-  -- default behavior. For example, here we set the section for
-  -- cursor location to LINE:COLUMN
-  ---@diagnostic disable-next-line: duplicate-set-field
+  statusline.setup {}
   statusline.section_location = function() return '%2l:%-2v' end
-
-  -- ... and there is more!
-  --  Check out: https://github.com/nvim-mini/mini.nvim
+  statusline.section_diff = function() return '' end
+  statusline.section_lsp = function() return '' end
+  ---@diagnostic enable: duplicate-set-field
 end
 
 -- ============================================================
@@ -522,6 +518,7 @@ do
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
   vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+  vim.keymap.set("n", "<leader>sa", function() builtin.find_files({ hidden = true, no_ignore = true }) end, { desc = "[S]earch [A]ll files" })
 
   -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
   -- If you later switch picker plugins, this is where to update these mappings.
@@ -558,27 +555,11 @@ do
   })
 
   -- Override default behavior and theme when searching
-  vim.keymap.set('n', '<leader>/', function()
-    -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-    builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      winblend = 10,
-      previewer = false,
-    })
-  end, { desc = '[/] Fuzzily search in current buffer' })
+  vim.keymap.set('n', '<leader>/', function() builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown { previewer = false }) end, { desc = '[/] Fuzzily search in current buffer' })
 
   -- It's also possible to pass additional configuration options.
   --  See `:help telescope.builtin.live_grep()` for information about particular keys
-  vim.keymap.set(
-    'n',
-    '<leader>s/',
-    function()
-      builtin.live_grep {
-        grep_open_files = true,
-        prompt_title = 'Live Grep in Open Files',
-      }
-    end,
-    { desc = '[S]earch [/] in Open Files' }
-  )
+  vim.keymap.set('n', '<leader>s/', function() builtin.live_grep { grep_open_files = true, prompt_title = 'Live Grep in Open Files' } end, { desc = '[S]earch [/] in Open Files' })
 
   -- Shortcut for searching your Neovim configuration files
   vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config', follow = true } end, { desc = '[S]earch [N]eovim files' })
@@ -701,7 +682,7 @@ do
     --    https://github.com/pmizio/typescript-tools.nvim
     --
     -- But for many setups, the LSP (`ts_ls`) will work just fine
-    -- ts_ls = {},
+    ts_ls = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -977,7 +958,7 @@ do
   -- require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
   -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
@@ -987,3 +968,24 @@ end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- Return to last edit position when opening files
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = augroup,
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    local line = mark[1]
+    local ft = vim.bo.filetype
+    if line > 0 and line <= lcount
+      and vim.fn.index({ "commit", "gitrebase", "xxd" }, ft) == -1
+      and not vim.o.diff then
+        pcall(vim.api.nvim_win_set_cursor, 0, mark)
+      end
+  end,
+})
+
+
+vim.pack.add { gh 'wansmer/treesj' }
+require('treesj').setup({ use_default_keymaps = false, max_join_length = 180 })
+vim.keymap.set('n', '<leader>m', require('treesj').toggle, { desc = 'Split/Join block of code' })
