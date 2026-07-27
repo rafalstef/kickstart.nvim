@@ -34,3 +34,15 @@ do
 
   vim.keymap.set('n', '<leader>m', require('treesj').toggle, { desc = 'Split/Join block of code' })
 end
+
+do
+  vim.pack.add { 'https://github.com/pmizio/typescript-tools.nvim' }
+  require('typescript-tools').setup({
+    expose_as_code_action = 'all',
+    tsserver_plugins = { 'styled-components' },
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" },
+    }
+  })
+end
