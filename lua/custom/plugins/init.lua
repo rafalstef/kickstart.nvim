@@ -44,6 +44,11 @@ do
   vim.keymap.set('n', '<leader>m', require('treesj').toggle, { desc = 'Split/Join block of code' })
 
   vim.pack.add { 'https://github.com/christoomey/vim-tmux-navigator' }
+
+  vim.pack.add { 'https://github.com/mikavilpas/yazi.nvim' }
+  vim.keymap.set('n', '<leader>-', function() require('yazi').yazi() end)
+  vim.g.loaded_netrwPlugin = 1
+  vim.api.nvim_create_autocmd('UIEnter', { callback = function() require('yazi').setup { open_for_directories = true } end })
 end
 
 do
