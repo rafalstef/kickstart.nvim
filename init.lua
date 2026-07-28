@@ -775,20 +775,11 @@ do
   vim.pack.add { gh 'stevearc/conform.nvim' }
   require('conform').setup {
     notify_on_error = false,
-    format_on_save = function(bufnr)
-      -- You can specify filetypes to autoformat on save here:
-      local enabled_filetypes = {
-        lua = true,
-        javascript = true,
-        typescript = true,
-        typescriptreact = true,
-      }
-      if enabled_filetypes[vim.bo[bufnr].filetype] then
-        return { timeout_ms = 500 }
-      else
-        return nil
-      end
-    end,
+    format_on_save = {
+      enabled = true,
+      timeout_ms = 500,
+      lsp_fallback = false,
+    },
     default_format_opts = {
       lsp_format = 'fallback', -- Use external formatters if configured below, otherwise use LSP formatting. Set to `false` to disable LSP formatting entirely.
     },
@@ -799,7 +790,10 @@ do
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', 'deno_fmt', 'biome' },
+      typescriptreact = { 'prettierd', 'prettier', 'deno_fmt', 'biome' },
+      javascript = { 'prettierd', 'prettier', 'deno_fmt', 'biome' },
+      javascriptreact = { 'prettierd', 'prettier', 'deno_fmt', 'biome' },
     },
   }
 
