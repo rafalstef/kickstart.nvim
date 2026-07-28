@@ -42,6 +42,8 @@ do
   require('treesj').setup { use_default_keymaps = false, max_join_length = 180 }
 
   vim.keymap.set('n', '<leader>m', require('treesj').toggle, { desc = 'Split/Join block of code' })
+
+  vim.pack.add { 'https://github.com/christoomey/vim-tmux-navigator' }
 end
 
 do
