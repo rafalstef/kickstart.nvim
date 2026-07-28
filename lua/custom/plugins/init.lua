@@ -25,6 +25,18 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+vim.keymap.set('n', '<leader>pa', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  print('file:', path)
+end, { desc = 'Copy absolute path' })
+
+vim.keymap.set('n', '<leader>pr', function()
+  local path = vim.fn.expand '%:.'
+  vim.fn.setreg('+', path)
+  print('file:', path)
+end, { desc = 'Copy relative path' })
+
 do
   vim.pack.add { 'https://github.com/wansmer/treesj' }
   require('treesj').setup { use_default_keymaps = false, max_join_length = 180 }
