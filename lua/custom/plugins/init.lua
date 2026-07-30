@@ -12,6 +12,12 @@ for file_name, type in vim.fs.dir(plugins_dir, { follow = true }) do
   end
 end
 
+-- Center screen when jumping
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result (centered)' })
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Previous search result (centered)' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half page down (centered)' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
+
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
@@ -65,3 +71,5 @@ do
     },
   }
 end
+
+
