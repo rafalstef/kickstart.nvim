@@ -49,6 +49,9 @@ do
   vim.keymap.set('n', '<leader>-', function() require('yazi').yazi() end)
   vim.g.loaded_netrwPlugin = 1
   vim.api.nvim_create_autocmd('UIEnter', { callback = function() require('yazi').setup { open_for_directories = true } end })
+
+  vim.pack.add { 'https://github.com/kdheepak/lazygit.nvim' }
+  vim.keymap.set('n', '<leader>lg', '<cmd>LazyGit<cr>', { desc = 'LazyGit' })
 end
 
 do
