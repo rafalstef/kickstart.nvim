@@ -64,6 +64,9 @@ do
   vim.keymap.set('n', '<leader>Sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', { desc = 'Search current word' })
   vim.keymap.set('v', '<leader>Sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', { desc = 'Search current word' })
   vim.keymap.set('n', '<leader>Sf', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', { desc = 'Search on current file' })
+
+  vim.pack.add { 'https://github.com/folke/zen-mode.nvim' }
+  vim.keymap.set('n', '<leader>z', function() require('zen-mode').toggle() end, { desc = 'Zen Mode' })
 end
 
 do
