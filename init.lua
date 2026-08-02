@@ -516,7 +516,7 @@ do
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-  vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+  vim.keymap.set('n', '<leader><leader>', function() builtin.buffers { sort_lastused = true } end, { desc = '[ ] Find existing buffers' })
   vim.keymap.set('n', '<leader>sa', function() builtin.find_files { hidden = true, no_ignore = true } end, { desc = '[S]earch [A]ll files' })
 
   -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
