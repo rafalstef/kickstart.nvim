@@ -157,10 +157,14 @@ do
   --   and `:help lua-guide-options`
   vim.o.list = true
   vim.opt.listchars = {
-    -- tab = '» ',
+    tab = '│ ',
     trail = '·',
     nbsp = '␣',
   }
+
+  vim.o.tabstop = 4
+  vim.o.shiftwidth = 4
+  vim.o.expandtab = true
 
   -- Preview substitutions live, as you type!
   vim.o.inccommand = 'split'
@@ -743,7 +747,7 @@ do
 
   -- Translates between nvim-lspconfig server names and mason.nvim package names (e.g. lua_ls <-> lua-language-server)
   require('mason-lspconfig').setup {
-    automatic_enable = false, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
+    automatic_enable = true, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
   }
 
   -- Ensure the servers and tools above are installed

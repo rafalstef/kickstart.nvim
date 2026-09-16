@@ -67,6 +67,9 @@ do
 
   vim.pack.add { 'https://github.com/folke/zen-mode.nvim' }
   vim.keymap.set('n', '<leader>z', function() require('zen-mode').toggle() end, { desc = 'Zen Mode' })
+
+  vim.pack.add { 'https://github.com/lukas-reineke/indent-blankline.nvim' }
+  require('ibl').setup { scope = { enabled = false } }
 end
 
 do
