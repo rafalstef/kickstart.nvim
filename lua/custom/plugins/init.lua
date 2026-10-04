@@ -135,3 +135,8 @@ do
   -- visual mode: copy the file path plus the selected line range
   vim.keymap.set('v', '<leader>cp', function() copy_ref { visual = true } end, { desc = 'Copy file path with line range' })
 end
+
+do
+  require('vim._core.ui2').enable {}
+  vim.o.cmdheight = 0
+end
